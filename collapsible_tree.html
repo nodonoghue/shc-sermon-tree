@@ -1,0 +1,588 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collapsible Nested Tree</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        .tree {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+            max-width: 1200px;
+        }
+        
+        /* Reset all margins and padding for clean slate */
+        .tree ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .tree li {
+            margin: 0;
+            padding: 0;
+        }
+        
+        /* Root level - no indentation */
+        .tree > ul {
+            margin-left: 0;
+        }
+        
+        /* Each nested level gets 30px more indentation */
+        .tree ul ul {
+            margin-left: 30px;
+            padding-left: 10px;
+            border-left: 1px dashed #ccc;
+        }
+        
+        .tree-node {
+            position: relative;
+        }
+        
+        .tree-toggle {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+            user-select: none;
+            margin: 2px 0;
+        }
+        
+        .tree-toggle:hover {
+            background-color: #f0f0f0;
+        }
+        
+        .tree-toggle.active {
+            background-color: #e3f2fd;
+        }
+        
+        .toggle-icon {
+            width: 0;
+            height: 0;
+            border-left: 6px solid #666;
+            border-top: 6px solid transparent;
+            border-bottom: 6px solid transparent;
+            margin-right: 8px;
+            transition: transform 0.2s;
+            flex-shrink: 0;
+        }
+        
+        .toggle-icon.expanded {
+            transform: rotate(90deg);
+        }
+        
+        .tree-content {
+            font-weight: 500;
+            color: #333;
+        }
+        
+        .tree-children {
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .tree-children.collapsed {
+            max-height: 0;
+            opacity: 0;
+        }
+        
+        .tree-children.expanded {
+            max-height: 1000px;
+            opacity: 1;
+        }
+        
+        .leaf-node {
+            padding: 8px 12px;
+            margin: 2px 0;
+            color: #555;
+            border-radius: 3px;
+            transition: background-color 0.2s;
+        }
+        
+        .leaf-node:hover {
+            background-color: #f9f9f9;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Example tree</h1>
+    
+    <div class="tree">
+        <ul>
+            <li class="tree-node">
+                <div class="tree-toggle" data-target="by-book">
+                    <span class="toggle-icon"></span>
+                    <span class="tree-content">By Book</span>
+                </div>
+                <ul class="tree-children collapsed" id="by-book">
+                    <li class="tree-node">
+                        <div class="tree-toggle" data-target="old-testament">
+                            <span class="toggle-icon"></span>
+                            <span class="tree-content">Old Testament</span>
+                        </div>
+                        <ul class="tree-children collapsed" id="old-testament">
+                            <li class="tree-node">
+                                <div class="tree-toggle" data-target="genesis">
+                                    <span class="toggle-icon"></span>
+                                    <span class="tree-content">Genesis</span>
+                                </div>
+                                <ul class="tree-children collapsed" id="genesis">
+                                    <li class="leaf-node">
+                                        <h2>Video 1</h2>
+                                        <iframe 
+                                            width="560" 
+                                            height="315" 
+                                            src="https://www.youtube.com/embed/fe_v8NEPzNs" 
+                                            title="YouTube video"
+                                            allowfullscreen
+                                            style="border: 1px solid red;">
+                                        </iframe>
+                                    </li>
+                                    <li class="leaf-node">Video 2</li>
+                                    <li class="leaf-node">Video 3</li>
+                                </ul>
+                            </li>
+                            <li class="leaf-node">Exodus</li>
+                            <li class="leaf-node">Leviticus</li>
+                            <li class="leaf-node">Numbers</li>
+                        </ul>
+
+                        <div class="tree-toggle" data-target="new-testament">
+                            <span class="toggle-icon"></span>
+                            <span class="tree-content">New Testament</span>
+                        </div>
+                        <ul class="tree-children collapsed" id="new-testament">
+                            <li class="leaf-node">Matthew</li>
+                            <li class="leaf-node">Mark</li>
+                            <li class="leaf-node">Luke</li>
+                            <li class="leaf-node">John</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            
+            <li class="tree-node">
+                <div class="tree-toggle" data-target="by-topic">
+                    <span class="toggle-icon"></span>
+                    <span class="tree-content">By Topic</span>
+                </div>
+                <ul class="tree-children collapsed" id="by-topic">
+                    <li class="tree-node">
+                        <div class="tree-toggle" data-target="web-development">
+                            <span class="toggle-icon"></span>
+                            <span class="tree-content">🌐 Web Development</span>
+                        </div>
+                        <ul class="tree-children collapsed" id="web-development">
+                            <li class="leaf-node">🎨 HTML & CSS Basics</li>
+                            <li class="leaf-node">⚡ JavaScript Fundamentals</li>
+                            <li class="leaf-node">🔧 Frontend Frameworks</li>
+                            <li class="leaf-node">🗄️ Backend Development</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggles = document.querySelectorAll('.tree-toggle');
+            
+            toggles.forEach(toggle => {
+                toggle.addEventListener('click', function() {
+                    const targetId = this.getAttribute('data-target');
+                    const targetElement = document.getElementById(targetId);
+                    const icon = this.querySelector('.toggle-icon');
+                    
+                    if (targetElement.classList.contains('collapsed')) {
+                        // Expand
+                        targetElement.classList.remove('collapsed');
+                        targetElement.classList.add('expanded');
+                        icon.classList.add('expanded');
+                        this.classList.add('active');
+                    } else {
+                        // Collapse
+                        targetElement.classList.remove('expanded');
+                        targetElement.classList.add('collapsed');
+                        icon.classList.remove('expanded');
+                        this.classList.remove('active');
+                        
+                        // Also collapse all children
+                        const childToggles = targetElement.querySelectorAll('.tree-toggle');
+                        childToggles.forEach(childToggle => {
+                            const childTargetId = childToggle.getAttribute('data-target');
+                            const childTargetElement = document.getElementById(childTargetId);
+                            const childIcon = childToggle.querySelector('.toggle-icon');
+                            
+                            childTargetElement.classList.remove('expanded');
+                            childTargetElement.classList.add('collapsed');
+                            childIcon.classList.remove('expanded');
+                            childToggle.classList.remove('active');
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile-Friendly Collapsible Tree</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 10px;
+            background-color: #f5f5f5;
+        }
+        
+        .tree {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 15px;
+            max-width: 100%;
+        }
+        
+        /* Reset all margins and padding for clean slate */
+        .tree ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .tree li {
+            margin: 0;
+            padding: 0;
+        }
+        
+        /* Root level - no indentation */
+        .tree > ul {
+            margin-left: 0;
+        }
+        
+        /* Mobile: Smaller indentation */
+        .tree ul ul {
+            margin-left: 20px;
+            padding-left: 8px;
+            border-left: 1px dashed #ccc;
+        }
+        
+        /* Desktop: More indentation */
+        @media (min-width: 768px) {
+            .tree ul ul {
+                margin-left: 30px;
+                padding-left: 10px;
+            }
+            
+            body {
+                padding: 20px;
+            }
+            
+            .tree {
+                padding: 20px;
+                max-width: 1600px;
+            }
+        }
+        
+        .tree-node {
+            position: relative;
+        }
+        
+        .tree-toggle {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            padding: 12px 8px; /* Larger touch targets */
+            border-radius: 6px;
+            transition: background-color 0.2s;
+            user-select: none;
+            margin: 3px 0;
+            min-height: 44px; /* iOS recommended touch target */
+            box-sizing: border-box;
+        }
+        
+        .tree-toggle:hover {
+            background-color: #f0f0f0;
+        }
+        
+        .tree-toggle:active {
+            background-color: #e0e0e0;
+        }
+        
+        .tree-toggle.active {
+            background-color: #e3f2fd;
+        }
+        
+        .toggle-icon {
+            width: 0;
+            height: 0;
+            border-left: 8px solid #666; /* Slightly larger for mobile */
+            border-top: 8px solid transparent;
+            border-bottom: 8px solid transparent;
+            margin-right: 12px;
+            transition: transform 0.2s;
+            flex-shrink: 0;
+        }
+        
+        .toggle-icon.expanded {
+            transform: rotate(90deg);
+        }
+        
+        .tree-content {
+            font-weight: 500;
+            color: #333;
+            font-size: 16px; /* Larger text for mobile */
+            flex-grow: 1;
+        }
+        
+        .tree-children {
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .tree-children.collapsed {
+            max-height: 0;
+            opacity: 0;
+        }
+        
+        .tree-children.expanded {
+            max-height: 2000px; /* Increased for mobile content */
+            opacity: 1;
+        }
+        
+        .leaf-node {
+            padding: 12px 8px;
+            margin: 3px 0;
+            color: #555;
+            border-radius: 6px;
+            transition: background-color 0.2s;
+            font-size: 15px;
+        }
+        
+        .leaf-node:hover {
+            background-color: #f9f9f9;
+        }
+        
+        .video-container {
+            margin: 10px 0;
+        }
+        
+        .video-container h2 {
+            margin: 0 0 10px 0;
+            font-size: 18px;
+            color: #2c3e50;
+        }
+        
+        /* Responsive video iframe */
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            margin: 10px 0;
+        }
+        
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        /* Mobile-specific video adjustments */
+        @media (max-width: 767px) {
+            .video-wrapper {
+                padding-bottom: 56.25%; /* Maintain 16:9 on mobile */
+            }
+        }
+        
+        h1 {
+            color: #2c3e50;
+            margin: 0 0 20px 0;
+            font-size: 24px;
+            text-align: center;
+        }
+        
+        @media (min-width: 768px) {
+            h1 {
+                font-size: 28px;
+                text-align: left;
+            }
+        }
+        
+        /* Touch-friendly scrolling */
+        .tree {
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        /* Better focus states for accessibility */
+        .tree-toggle:focus {
+            outline: 2px solid #007bff;
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+    <h1>📱 Mobile-Friendly Tree</h1>
+    
+    <div class="tree">
+        <ul>
+            <li class="tree-node">
+                <div class="tree-toggle" data-target="by-book">
+                    <span class="toggle-icon"></span>
+                    <span class="tree-content">By Book</span>
+                </div>
+                <ul class="tree-children collapsed" id="by-book">
+                    <li class="tree-node">
+                        <div class="tree-toggle" data-target="old-testament">
+                            <span class="toggle-icon"></span>
+                            <span class="tree-content">Old Testament</span>
+                        </div>
+                        <ul class="tree-children collapsed" id="old-testament">
+                            <li class="tree-node">
+                                <div class="tree-toggle" data-target="genesis">
+                                    <span class="toggle-icon"></span>
+                                    <span class="tree-content">Genesis</span>
+                                </div>
+                                <ul class="tree-children collapsed" id="genesis">
+                                    <li class="leaf-node">
+                                        <div class="video-container">
+                                            <h2>Video 1</h2>
+                                            <div class="video-wrapper">
+                                                <iframe 
+                                                    src="https://www.youtube.com/embed/fe_v8NEPzNs?modestbranding=1&rel=0" 
+                                                    title="YouTube video"
+                                                    allowfullscreen>
+                                                </iframe>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="leaf-node">📹 Video 2 - The Garden</li>
+                                    <li class="leaf-node">📹 Video 3 - The Fall</li>
+                                </ul>
+                            </li>
+                            <li class="leaf-node">Exodus</li>
+                            <li class="leaf-node">Leviticus</li>
+                            <li class="leaf-node">Numbers</li>
+                        </ul>
+                    </li>
+                    
+                    <li class="tree-node">
+                        <div class="tree-toggle" data-target="new-testament">
+                            <span class="toggle-icon"></span>
+                            <span class="tree-content">New Testament</span>
+                        </div>
+                        <ul class="tree-children collapsed" id="new-testament">
+                            <li class="leaf-node">Matthew</li>
+                            <li class="leaf-node">Mark</li>
+                            <li class="leaf-node">Luke</li>
+                            <li class="leaf-node">John</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            
+            <li class="tree-node">
+                <div class="tree-toggle" data-target="by-topic">
+                    <span class="toggle-icon"></span>
+                    <span class="tree-content">By Topic</span>
+                </div>
+                <ul class="tree-children collapsed" id="by-topic">
+                    <li class="tree-node">
+                        <div class="tree-toggle" data-target="web-development">
+                            <span class="toggle-icon"></span>
+                            <span class="tree-content">🌐 Web Development</span>
+                        </div>
+                        <ul class="tree-children collapsed" id="web-development">
+                            <li class="leaf-node">🎨 HTML & CSS Basics</li>
+                            <li class="leaf-node">⚡ JavaScript Fundamentals</li>
+                            <li class="leaf-node">🔧 Frontend Frameworks</li>
+                            <li class="leaf-node">🗄️ Backend Development</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggles = document.querySelectorAll('.tree-toggle');
+            
+            toggles.forEach(toggle => {
+                toggle.addEventListener('click', function() {
+                    const targetId = this.getAttribute('data-target');
+                    const targetElement = document.getElementById(targetId);
+                    const icon = this.querySelector('.toggle-icon');
+                    
+                    if (targetElement.classList.contains('collapsed')) {
+                        // Expand
+                        targetElement.classList.remove('collapsed');
+                        targetElement.classList.add('expanded');
+                        icon.classList.add('expanded');
+                        this.classList.add('active');
+                    } else {
+                        // Collapse
+                        targetElement.classList.remove('expanded');
+                        targetElement.classList.add('collapsed');
+                        icon.classList.remove('expanded');
+                        this.classList.remove('active');
+                        
+                        // Also collapse all children
+                        const childToggles = targetElement.querySelectorAll('.tree-toggle');
+                        childToggles.forEach(childToggle => {
+                            const childTargetId = childToggle.getAttribute('data-target');
+                            const childTargetElement = document.getElementById(childTargetId);
+                            const childIcon = childToggle.querySelector('.toggle-icon');
+                            
+                            childTargetElement.classList.remove('expanded');
+                            childTargetElement.classList.add('collapsed');
+                            childIcon.classList.remove('expanded');
+                            childToggle.classList.remove('active');
+                        });
+                    }
+                });
+                
+                // Add keyboard support
+                toggle.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        this.click();
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
