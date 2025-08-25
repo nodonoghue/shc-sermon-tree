@@ -3,23 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mobile-Friendly Collapsible Tree</title>
+    <title>Sermon Catalog</title>
     <style>
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: Georgia, serif;
             line-height: 1.6;
             margin: 0;
-            padding: 10px;
-            background-color: #f5f5f5;
+            padding: 20px;
+            background-color: #f8f9fa;
+            color: #333;
         }
         
-        .tree {
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
             background: white;
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            padding: 15px;
-            max-width: 100%;
-            -webkit-overflow-scrolling: touch;
+        }
+        
+        .header h1 {
+            color: #2c3e50;
+            margin: 0;
+        }
+        
+        .header p {
+            color: #666;
+            margin: 10px 0 0 0;
+        }
+        
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .tree-container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+        
+        .tree-header {
+            border-bottom: 2px solid #e9ecef;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .tree-header h2 {
+            color: #495057;
+            margin: 0;
+            font-size: 1.4em;
         }
         
         .tree ul {
@@ -38,25 +76,9 @@
         }
         
         .tree ul ul {
-            margin-left: 20px;
-            padding-left: 8px;
-            border-left: 1px dashed #ccc;
-        }
-        
-        @media (min-width: 768px) {
-            .tree ul ul {
-                margin-left: 30px;
-                padding-left: 10px;
-            }
-            
-            body {
-                padding: 20px;
-            }
-            
-            .tree {
-                padding: 20px;
-                max-width: 1600px;
-            }
+            margin-left: 25px;
+            padding-left: 10px;
+            border-left: 1px dashed #dee2e6;
         }
         
         .tree-node {
@@ -67,34 +89,28 @@
             cursor: pointer;
             display: flex;
             align-items: center;
-            padding: 12px 8px;
-            border-radius: 6px;
+            padding: 8px 12px;
+            border-radius: 4px;
             transition: background-color 0.2s;
             user-select: none;
-            margin: 3px 0;
-            min-height: 44px;
-            box-sizing: border-box;
+            margin: 2px 0;
         }
         
         .tree-toggle:hover {
-            background-color: #f0f0f0;
-        }
-        
-        .tree-toggle:active {
-            background-color: #e0e0e0;
+            background-color: #f8f9fa;
         }
         
         .tree-toggle.active {
-            background-color: #e3f2fd;
+            background-color: #e7f3ff;
         }
         
         .toggle-icon {
             width: 0;
             height: 0;
-            border-left: 8px solid #777;
-            border-top: 8px solid transparent;
-            border-bottom: 8px solid transparent;
-            margin-right: 12px;
+            border-left: 6px solid #6c757d;
+            border-top: 6px solid transparent;
+            border-bottom: 6px solid transparent;
+            margin-right: 8px;
             transition: transform 0.2s;
             flex-shrink: 0;
         }
@@ -105,9 +121,7 @@
         
         .tree-content {
             font-weight: 500;
-            color: #333;
-            font-size: 16px;
-            flex-grow: 1;
+            color: #495057;
         }
         
         .tree-children {
@@ -127,180 +141,277 @@
             opacity: 1;
         }
         
-        .leaf-node {
-            padding: 12px 8px;
-            margin: 3px 0;
-            color: #555;
-            border-radius: 6px;
+        .sermon-item {
+            padding: 8px 12px;
+            margin: 2px 0;
+            color: #6c757d;
+            border-radius: 3px;
             transition: background-color 0.2s;
-            font-size: 15px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         
-        .leaf-node:hover {
-            background-color: #f9f9f9;
+        .sermon-item:hover {
+            background-color: #f8f9fa;
+            color: #495057;
+        }
+        
+        .sermon-title {
+            font-weight: 500;
+        }
+        
+        .sermon-date {
+            font-size: 0.85em;
+            color: #adb5bd;
         }
         
         .video-container {
-            margin: 10px 0;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            margin: 5px 0;
         }
         
-        .video-container h2 {
-            margin: 0 0 10px 0;
-            font-size: 18px;
-            color: #2c3e50;
+        .video-container iframe {
+            border-radius: 6px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            max-width: 100%;
+            height: auto;
+            aspect-ratio: 16/9;
         }
         
-        .video-wrapper {
-            position: relative;
-            width: 100%;
-            height: 0;
-            padding-bottom: 56.25%;
-            margin: 10px 0;
-        }
-        
-        .video-wrapper iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-        
-        @media (max-width: 767px) {
-            .video-wrapper {
-                padding-bottom: 56.25%;
-            }
-        }
-        
-        h1 {
-            color: #2c3e50;
-            margin: 0 0 20px 0;
-            font-size: 24px;
+        .video-placeholder {
+            padding: 60px 20px;
             text-align: center;
+            color: #6c757d;
+            background: #fff;
+            border: 2px dashed #dee2e6;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
         
-        @media (min-width: 768px) {
-            h1 {
-                font-size: 28px;
-                text-align: left;
-            }
+        .video-placeholder:hover {
+            background: #f8f9fa;
+            border-color: #adb5bd;
         }
- 
-        .tree-toggle:focus {
-            outline: 2px solid #007bff;
-            outline-offset: 2px;
+        
+        .sermon-count {
+            font-size: 0.85em;
+            color: #adb5bd;
+            font-style: italic;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>📱 Mobile-Friendly Tree</h1>
+    <div class="header">
+        <h1>📖 Sermon Library</h1>
+        <p>Browse sermons by biblical book or theological topic</p>
+    </div>
     
-    <div class="tree">
-        <ul>
-            <li class="tree-node">
-                <div class="tree-toggle" data-target="by-book">
-                    <span class="toggle-icon"></span>
-                    <span class="tree-content">By Book</span>
-                </div>
-                <ul class="tree-children collapsed" id="by-book">
-                    <li class="tree-node">
-                        <div class="tree-toggle" data-target="old-testament">
-                            <span class="toggle-icon"></span>
-                            <span class="tree-content">Old Testament</span>
-                        </div>
-                        <ul class="tree-children collapsed" id="old-testament">
-                            <li class="tree-node">
-                                <div class="tree-toggle" data-target="genesis">
-                                    <span class="toggle-icon"></span>
-                                    <span class="tree-content">Genesis</span>
-                                </div>
-                                <ul class="tree-children collapsed" id="genesis">
-                                    <li class="leaf-node">
-                                        <div class="video-container">
-                                            <h2>Video 1</h2>
-                                            <div class="video-wrapper">
-                                                <iframe 
-                                                    src="https://www.youtube.com/embed/fe_v8NEPzNs?modestbranding=1&rel=0" 
-                                                    title="YouTube video"
-                                                    allowfullscreen>
-                                                </iframe>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="leaf-node">📹 Video 2 - The Garden</li>
-                                    <li class="leaf-node">📹 Video 3 - The Fall</li>
-                                </ul>
-                            </li>
-                            <li class="leaf-node">Exodus</li>
-                            <li class="leaf-node">Leviticus</li>
-                            <li class="leaf-node">Numbers</li>
-                        </ul>
-                    </li>
-                    
-                    <li class="tree-node">
-                        <div class="tree-toggle" data-target="new-testament">
-                            <span class="toggle-icon"></span>
-                            <span class="tree-content">New Testament</span>
-                        </div>
-                        <ul class="tree-children collapsed" id="new-testament">
-                            <li class="leaf-node">Matthew</li>
-                            <li class="leaf-node">Mark</li>
-                            <li class="leaf-node">Luke</li>
-                            <li class="leaf-node">John</li>
-                        </ul>
-                    </li>
-                </ul>
-            </li>
-            
-            <li class="tree-node">
-                <div class="tree-toggle" data-target="by-topic">
-                    <span class="toggle-icon"></span>
-                    <span class="tree-content">By Topic</span>
-                </div>
-                <ul class="tree-children collapsed" id="by-topic">
-                    <li class="tree-node">
-                        <div class="tree-toggle" data-target="web-development">
-                            <span class="toggle-icon"></span>
-                            <span class="tree-content">🌐 Web Development</span>
-                        </div>
-                        <ul class="tree-children collapsed" id="web-development">
-                            <li class="leaf-node">🎨 HTML & CSS Basics</li>
-                            <li class="leaf-node">⚡ JavaScript Fundamentals</li>
-                            <li class="leaf-node">🔧 Frontend Frameworks</li>
-                            <li class="leaf-node">🗄️ Backend Development</li>
-                        </ul>
-                    </li>
-                </ul>
-            </li>
-        </ul>
+    <div class="container">
+        <!-- By Book Tree -->
+        <div class="tree-container">
+            <div class="tree-header">
+                <h2>📚 By Biblical Book</h2>
+            </div>
+            <div class="tree" id="book-tree">
+                <!-- Content will be generated by JavaScript -->
+            </div>
+        </div>
+        
+        <!-- By Topic Tree -->
+        <div class="tree-container">
+            <div class="tree-header">
+                <h2>🏷️ By Topic</h2>
+            </div>
+            <div class="tree" id="topic-tree">
+                <!-- Content will be generated by JavaScript -->
+            </div>
+        </div>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const toggles = document.querySelectorAll('.tree-toggle');
+        // Sermon data structure - easily maintainable
+        const sermonData = {
+            byBook: {
+                "Old Testament": {
+                    "Genesis": [
+                        { title: "In the Beginning", date: "2024-01-07", id: "gen-1", youtube: "fe_v8NEPzNs" },
+                        { title: "The Fall of Man", date: "2024-01-14", id: "gen-2", youtube: "fe_v8NEPzNs" },
+                        { title: "Noah's Covenant", date: "2024-01-21", id: "gen-3", youtube: "fe_v8NEPzNs" }
+                    ],
+                    "Psalms": [
+                        { title: "The Lord is My Shepherd", date: "2024-02-04", id: "ps-1", youtube: "fe_v8NEPzN" },
+                        { title: "Trust in the Lord", date: "2024-02-11", id: "ps-2", youtube: "fe_v8NEPzN" }
+                    ],
+                    "Proverbs": [
+                        { title: "Wisdom's Call", date: "2024-02-18", id: "prov-1", youtube: "fe_v8NEPzN" }
+                    ]
+                },
+                "New Testament": {
+                    "Matthew": [
+                        { title: "The Beatitudes", date: "2024-03-03", id: "matt-1", youtube: "fe_v8NEPzN" },
+                        { title: "The Lord's Prayer", date: "2024-03-10", id: "matt-2", youtube: "fe_v8NEPzN" }
+                    ],
+                    "Romans": [
+                        { title: "The Gospel of Grace", date: "2024-03-17", id: "rom-1", youtube: "fe_v8NEPzN" },
+                        { title: "Living Sacrifices", date: "2024-03-24", id: "rom-2", youtube: "fe_v8NEPzN" }
+                    ],
+                    "1 Corinthians": [
+                        { title: "Love Chapter", date: "2024-03-31", id: "cor-1", youtube: "fe_v8NEPzN" }
+                    ]
+                }
+            },
+            byTopic: {
+                "Faith & Trust": [
+                    { title: "Trust in the Lord", date: "2024-02-11", id: "ps-2", youtube: "fe_v8NEPzN" },
+                    { title: "The Gospel of Grace", date: "2024-03-17", id: "rom-1", youtube: "fe_v8NEPzN" }
+                ],
+                "Love & Relationships": [
+                    { title: "Love Chapter", date: "2024-03-31", id: "cor-1", youtube: "fe_v8NEPzN" }
+                ],
+                "Prayer & Worship": [
+                    { title: "The Lord's Prayer", date: "2024-03-10", id: "matt-2", youtube: "fe_v8NEPzN" },
+                    { title: "The Lord is My Shepherd", date: "2024-02-04", id: "ps-1", youtube: "fe_v8NEPzN" }
+                ],
+                "Christian Living": [
+                    { title: "The Beatitudes", date: "2024-03-03", id: "matt-1", youtube: "fe_v8NEPzN" },
+                    { title: "Living Sacrifices", date: "2024-03-24", id: "rom-2", youtube: "fe_v8NEPzN" },
+                    { title: "Wisdom's Call", date: "2024-02-18", id: "prov-1", youtube: "fe_v8NEPzN" }
+                ],
+                "Creation & Origins": [
+                    { title: "In the Beginning", date: "2024-01-07", id: "gen-1", youtube: "fe_v8NEPzN" },
+                    { title: "The Fall of Man", date: "2024-01-14", id: "gen-2", youtube: "fe_v8NEPzN" }
+                ],
+                "Covenant & Promise": [
+                    { title: "Noah's Covenant", date: "2024-01-21", id: "gen-3", youtube: "fe_v8NEPzN" }
+                ]
+            }
+        };
+
+        let idCounter = 0;
+        
+        function generateUniqueId() {
+            return `node-${++idCounter}`;
+        }
+        
+        function createSermonItem(sermon) {
+            const videoNodeId = generateUniqueId();
+            return `
+                <li class="tree-node">
+                    <div class="tree-toggle" data-target="${videoNodeId}">
+                        <span class="toggle-icon"></span>
+                        <span class="tree-content">
+                            <span class="sermon-title">📝 ${sermon.title}</span>
+                            <span class="sermon-date">${sermon.date}</span>
+                        </span>
+                    </div>
+                    <ul class="tree-children collapsed" id="${videoNodeId}" data-youtube-id="${sermon.youtube}" data-video-title="${sermon.title}">
+                        <li class="video-container">
+                            <div class="video-placeholder">Click to load video...</div>
+                        </li>
+                    </ul>
+                </li>
+            `;
+        }
+        
+        function createTreeNode(title, children, isSermonList = false) {
+            const nodeId = generateUniqueId();
             
-            toggles.forEach(toggle => {
-                toggle.addEventListener('click', function() {
-                    const targetId = this.getAttribute('data-target');
+            if (isSermonList) {
+                const sermonItems = children.map(createSermonItem).join('');
+                const count = children.length;
+                return `
+                    <li class="tree-node">
+                        <div class="tree-toggle" data-target="${nodeId}">
+                            <span class="toggle-icon"></span>
+                            <span class="tree-content">${title} <span class="sermon-count">(${count})</span></span>
+                        </div>
+                        <ul class="tree-children collapsed" id="${nodeId}">
+                            ${sermonItems}
+                        </ul>
+                    </li>
+                `;
+            } else {
+                const childNodes = Object.entries(children).map(([childTitle, childData]) => {
+                    if (Array.isArray(childData)) {
+                        return createTreeNode(childTitle, childData, true);
+                    } else {
+                        return createTreeNode(childTitle, childData, false);
+                    }
+                }).join('');
+                
+                return `
+                    <li class="tree-node">
+                        <div class="tree-toggle" data-target="${nodeId}">
+                            <span class="toggle-icon"></span>
+                            <span class="tree-content">${title}</span>
+                        </div>
+                        <ul class="tree-children collapsed" id="${nodeId}">
+                            ${childNodes}
+                        </ul>
+                    </li>
+                `;
+            }
+        }
+        
+        function generateBookTree() {
+            const bookTreeHtml = Object.entries(sermonData.byBook).map(([testament, books]) => {
+                return createTreeNode(testament, books);
+            }).join('');
+            
+            return `<ul>${bookTreeHtml}</ul>`;
+        }
+        
+        function generateTopicTree() {
+            const topicTreeHtml = Object.entries(sermonData.byTopic).map(([topic, sermons]) => {
+                return createTreeNode(topic, sermons, true);
+            }).join('');
+            
+            return `<ul>${topicTreeHtml}</ul>`;
+        }
+        
+        function initializeTrees() {
+            // Generate both trees
+            document.getElementById('book-tree').innerHTML = generateBookTree();
+            document.getElementById('topic-tree').innerHTML = generateTopicTree();
+            
+            // Add event listeners for toggles
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('.tree-toggle')) {
+                    const toggle = e.target.closest('.tree-toggle');
+                    const targetId = toggle.getAttribute('data-target');
                     const targetElement = document.getElementById(targetId);
-                    const icon = this.querySelector('.toggle-icon');
+                    const icon = toggle.querySelector('.toggle-icon');
                     
                     if (targetElement.classList.contains('collapsed')) {
-                        // Expand
                         targetElement.classList.remove('collapsed');
                         targetElement.classList.add('expanded');
                         icon.classList.add('expanded');
-                        this.classList.add('active');
+                        toggle.classList.add('active');
+                        
+                        // Load YouTube iframe if this is a video section
+                        const youtubeId = targetElement.getAttribute('data-youtube-id');
+                        if (youtubeId) {
+                            loadYouTubeVideo(targetElement, youtubeId);
+                        }
                     } else {
-                        // Collapse
                         targetElement.classList.remove('expanded');
                         targetElement.classList.add('collapsed');
                         icon.classList.remove('expanded');
-                        this.classList.remove('active');
+                        toggle.classList.remove('active');
                         
-                        // Also collapse all children
+                        // Collapse all children
                         const childToggles = targetElement.querySelectorAll('.tree-toggle');
                         childToggles.forEach(childToggle => {
                             const childTargetId = childToggle.getAttribute('data-target');
@@ -313,16 +424,51 @@
                             childToggle.classList.remove('active');
                         });
                     }
-                });
+                }
                 
-                toggle.addEventListener('keydown', function(e) {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        this.click();
+                // Handle video placeholder clicks
+                if (e.target.closest('.video-placeholder')) {
+                    const placeholder = e.target.closest('.video-placeholder');
+                    const container = placeholder.closest('.tree-children');
+                    const youtubeId = container.getAttribute('data-youtube-id');
+                    if (youtubeId) {
+                        loadYouTubeVideo(container, youtubeId);
                     }
-                });
+                }
             });
-        });
+        }
+        
+        function loadYouTubeVideo(container, youtubeId) {
+            const videoContainer = container.querySelector('.video-container');
+            const placeholder = videoContainer.querySelector('.video-placeholder');
+            
+            if (placeholder) {
+                const videoTitle = container.getAttribute('data-video-title') || 'Sermon Video';
+                
+                // Create iframe using DOM methods instead of innerHTML
+                const iframe = document.createElement('iframe');
+                iframe.width = '560';
+                iframe.height = '315';
+                iframe.src = `https://www.youtube.com/embed/${youtubeId}?modestbranding=1&rel=0`;
+                iframe.title = videoTitle;
+                iframe.frameBorder = '0';
+                iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+                iframe.allowFullscreen = true;
+                
+                // Clear container and add iframe
+                videoContainer.innerHTML = '';
+                videoContainer.appendChild(iframe);
+            }
+        }
+        
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', initializeTrees);
     </script>
 </body>
 </html>
+<!-- 
+<iframe 
+    src="https://www.youtube.com/embed/fe_v8NEPzNs?modestbranding=1&rel=0" 
+    title="YouTube video"
+    allowfullscreen>
+</iframe> -->
