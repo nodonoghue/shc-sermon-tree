@@ -35,7 +35,7 @@
         
         .container {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            /* grid-template-columns: 1fr 1fr; */
             gap: 30px;
             max-width: 1200px;
             margin: 0 auto;
@@ -245,56 +245,68 @@
         const sermonData = {
             byBook: {
                 "Old Testament": {
-                    "Genesis": [
-                        { title: "In the Beginning", date: "2024-01-07", id: "gen-1", youtube: "fe_v8NEPzNs" },
-                        { title: "The Fall of Man", date: "2024-01-14", id: "gen-2", youtube: "fe_v8NEPzNs" },
-                        { title: "Noah's Covenant", date: "2024-01-21", id: "gen-3", youtube: "fe_v8NEPzNs" }
-                    ],
+                    "Genesis": {
+                        "Chapter 1": [
+                            { title: "The History of Creation", date: "2024-01-07", id: "gen-1", youtube: "fe_v8NEPzNs" },
+                        ],
+                        "Chapter 2": [
+                            { title: "Life in the Garden", date: "2024-01-28", id: "gen-4", youtube: "fe_v8NEPzNs" }
+                        ],
+                        "Chapter 3" : [
+                            { title: "The Temptation", date: "2025-08-24", id: "gen-5", youtube: "fe_v8NEPzNs" },
+                            { title: "The Fall of Man", date: "2025-08-24", id: "gen-6", youtube: "fe_v8NEPzNs" },
+                        ],
+                    },
                     "Psalms": [
-                        { title: "The Lord is My Shepherd", date: "2024-02-04", id: "ps-1", youtube: "fe_v8NEPzN" },
-                        { title: "Trust in the Lord", date: "2024-02-11", id: "ps-2", youtube: "fe_v8NEPzN" }
+                        { title: "The Lord is My Shepherd", date: "2024-02-04", id: "ps-1", youtube: "fe_v8NEPzNs" },
+                        { title: "Trust in the Lord", date: "2024-02-11", id: "ps-2", youtube: "fe_v8NEPzNs" }
                     ],
                     "Proverbs": [
-                        { title: "Wisdom's Call", date: "2024-02-18", id: "prov-1", youtube: "fe_v8NEPzN" }
+                        { title: "Wisdom's Call", date: "2024-02-18", id: "prov-1", youtube: "fe_v8NEPzNs" }
                     ]
                 },
                 "New Testament": {
                     "Matthew": [
-                        { title: "The Beatitudes", date: "2024-03-03", id: "matt-1", youtube: "fe_v8NEPzN" },
-                        { title: "The Lord's Prayer", date: "2024-03-10", id: "matt-2", youtube: "fe_v8NEPzN" }
+                        { title: "The Beatitudes", date: "2024-03-03", id: "matt-1", youtube: "fe_v8NEPzNs" },
+                        { title: "The Lord's Prayer", date: "2024-03-10", id: "matt-2", youtube: "fe_v8NEPzNs" }
                     ],
                     "Romans": [
-                        { title: "The Gospel of Grace", date: "2024-03-17", id: "rom-1", youtube: "fe_v8NEPzN" },
-                        { title: "Living Sacrifices", date: "2024-03-24", id: "rom-2", youtube: "fe_v8NEPzN" }
+                        { title: "The Gospel of Grace", date: "2024-03-17", id: "rom-1", youtube: "fe_v8NEPzNs" },
+                        { title: "Living Sacrifices", date: "2024-03-24", id: "rom-2", youtube: "fe_v8NEPzNs" }
                     ],
                     "1 Corinthians": [
-                        { title: "Love Chapter", date: "2024-03-31", id: "cor-1", youtube: "fe_v8NEPzN" }
-                    ]
+                        { title: "Love Chapter", date: "2024-03-31", id: "cor-1", youtube: "fe_v8NEPzNs" }
+                    ],
+                    "1 Peter": {
+                        "Chapter 1": [
+                            { title: "Expect Something Greater | 1 Peter 1:1-12 | Josh Teis", date: "2024-03-31", id: "1pet-1", youtube: "fe_v8NEPzNs" }
+                        ]
+                    }
                 }
             },
             byTopic: {
                 "Faith & Trust": [
-                    { title: "Trust in the Lord", date: "2024-02-11", id: "ps-2", youtube: "fe_v8NEPzN" },
-                    { title: "The Gospel of Grace", date: "2024-03-17", id: "rom-1", youtube: "fe_v8NEPzN" }
+                    { title: "Trust in the Lord", date: "2024-02-11", id: "ps-2", youtube: "fe_v8NEPzNs" },
+                    { title: "The Gospel of Grace", date: "2024-03-17", id: "rom-1", youtube: "fe_v8NEPzNs" }
                 ],
                 "Love & Relationships": [
-                    { title: "Love Chapter", date: "2024-03-31", id: "cor-1", youtube: "fe_v8NEPzN" }
+                    { title: "Love Chapter", date: "2024-03-31", id: "cor-1", youtube: "fe_v8NEPzNs" }
                 ],
                 "Prayer & Worship": [
-                    { title: "The Lord's Prayer", date: "2024-03-10", id: "matt-2", youtube: "fe_v8NEPzN" },
-                    { title: "The Lord is My Shepherd", date: "2024-02-04", id: "ps-1", youtube: "fe_v8NEPzN" }
+                    { title: "The Lord's Prayer", date: "2024-03-10", id: "matt-2", youtube: "fe_v8NEPzNs" },
+                    { title: "The Lord is My Shepherd", date: "2024-02-04", id: "ps-1", youtube: "fe_v8NEPzNs" }
                 ],
                 "Christian Living": [
-                    { title: "The Beatitudes", date: "2024-03-03", id: "matt-1", youtube: "fe_v8NEPzN" },
-                    { title: "Living Sacrifices", date: "2024-03-24", id: "rom-2", youtube: "fe_v8NEPzN" },
-                    { title: "Wisdom's Call", date: "2024-02-18", id: "prov-1", youtube: "fe_v8NEPzN" }
+                    { title: "The Beatitudes", date: "2024-03-03", id: "matt-1", youtube: "fe_v8NEPzNs" },
+                    { title: "Living Sacrifices", date: "2024-03-24", id: "rom-2", youtube: "fe_v8NEPzNs" },
+                    { title: "Wisdom's Call", date: "2024-02-18", id: "prov-1", youtube: "fe_v8NEPzNs" }
                 ],
                 "Creation & Origins": [
-                    { title: "In the Beginning", date: "2024-01-07", id: "gen-1", youtube: "fe_v8NEPzN" },
-                    { title: "The Fall of Man", date: "2024-01-14", id: "gen-2", youtube: "fe_v8NEPzN" }
+                    { title: "In the Beginning", date: "2024-01-07", id: "gen-1", youtube: "fe_v8NEPzNs" },
+                    { title: "The Fall of Man", date: "2024-01-14", id: "gen-2", youtube: "fe_v8NEPzNs" }
                 ],
                 "Covenant & Promise": [
-                    { title: "Noah's Covenant", date: "2024-01-21", id: "gen-3", youtube: "fe_v8NEPzN" }
+                    { title: "Noah's Covenant", date: "2024-01-21", id: "gen-3", youtube: "fe_v8NEPzNs" }
                 ]
             }
         };
@@ -466,9 +478,3 @@
     </script>
 </body>
 </html>
-<!-- 
-<iframe 
-    src="https://www.youtube.com/embed/fe_v8NEPzNs?modestbranding=1&rel=0" 
-    title="YouTube video"
-    allowfullscreen>
-</iframe> -->
