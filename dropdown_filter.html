@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,7 +10,7 @@
             .container {
                 gap: 20px;
             }
-            
+
             .book-dropdown {
                 max-width: 100%;
             }
@@ -23,7 +24,7 @@
             background-color: #ffffff;
             color: #000000;
         }
-        
+
         .header {
             text-align: center;
             margin-bottom: 30px;
@@ -31,17 +32,17 @@
             background: #ffffff;
             border-radius: 8px;
         }
-        
+
         .header h1 {
             color: #000000;
             margin: 0;
         }
-        
+
         .header p {
             color: #666;
             margin: 10px 0 0 0;
         }
-        
+
         .container {
             max-width: 800px;
             margin: 0 auto;
@@ -49,51 +50,51 @@
             flex-direction: column;
             gap: 30px;
         }
-        
+
         .tree-container {
             background: #0094B3;
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             padding: 20px;
         }
-        
+
         .tree-header {
             border-bottom: 2px solid #ffffff;
             padding-bottom: 15px;
             margin-bottom: 20px;
         }
-        
+
         .tree-header h2 {
             color: #ffffff;
             margin: 0;
             font-size: 1.4em;
         }
-        
+
         .tree ul {
             list-style: none;
             margin: 0;
             padding: 0;
         }
-        
+
         .tree li {
             margin: 0;
             padding: 0;
         }
-        
-        .tree > ul {
+
+        .tree>ul {
             margin-left: 0;
         }
-        
+
         .tree ul ul {
             margin-left: 25px;
             padding-left: 10px;
             border-left: 1px dashed #dee2e6;
         }
-        
+
         .tree-node {
             position: relative;
         }
-        
+
         .tree-toggle {
             cursor: pointer;
             display: flex;
@@ -104,17 +105,17 @@
             user-select: none;
             margin: 2px 0;
         }
-        
+
         .tree-toggle:hover {
             background-color: #111c24;
             color: #ffffff;
         }
-        
+
         .tree-toggle.active {
             background-color: #111c24;
             color: #ffffff;
         }
-        
+
         .toggle-icon {
             width: 0;
             height: 0;
@@ -125,33 +126,33 @@
             transition: transform 0.2s;
             flex-shrink: 0;
         }
-        
+
         .toggle-icon.expanded {
             transform: rotate(90deg);
         }
-        
+
         .tree-content {
             font-weight: 500;
             color: #ffffff;
         }
-        
+
         .tree-children {
             overflow: hidden;
             transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
             margin: 0;
             padding: 0;
         }
-        
+
         .tree-children.collapsed {
             max-height: 0;
             opacity: 0;
         }
-        
+
         .tree-children.expanded {
             max-height: 2000px;
             opacity: 1;
         }
-        
+
         .sermon-item {
             padding: 8px 12px;
             margin: 2px 0;
@@ -163,36 +164,36 @@
             justify-content: space-between;
             align-items: center;
         }
-        
+
         .sermon-item:hover {
             background-color: #111c24;
             color: #ffffff;
         }
-        
+
         .sermon-title {
             font-weight: 500;
         }
-        
+
         .sermon-date {
             font-size: 0.85em;
             color: #adb5bd;
         }
-        
+
         .video-container {
             padding: 10px;
             background: #0094B3;
             border-radius: 6px;
             margin: 5px 0;
         }
-        
+
         .video-container iframe {
             border-radius: 6px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             max-width: 100%;
             height: auto;
             aspect-ratio: 16/9;
         }
-        
+
         .video-placeholder {
             padding: 60px 20px;
             text-align: center;
@@ -208,26 +209,26 @@
             background: #0094B3;
             border-color: #ffffff;
         }
-        
+
         .sermon-count {
             font-size: 0.85em;
             color: #ffffff;
             font-style: italic;
         }
-        
+
         .filter-section {
             background: #0094B3;
             border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             padding: 20px;
             margin-bottom: 30px;
         }
-        
+
         .filter-section h3 {
             margin: 0 0 15px 0;
-            color: #495057;
+            color: #ffffff;
         }
-        
+
         .book-dropdown {
             width: 100%;
             max-width: 300px;
@@ -238,37 +239,82 @@
             background: #111c24;
             color: #ffffff;
         }
-        
+
         .book-dropdown:focus {
             outline: none;
             border-color: #80bdff;
-            box-shadow: 0 0 0 3px rgba(0,123,255,.1);
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, .1);
         }
-        
+
         .filtered-results {
             display: none;
         }
-        
+
         .filtered-results.active {
             display: block;
         }
+
+        .tab-content {
+            display: none;
+            padding: 6px 12px;
+            border: 1px solid #ccc;
+            border-top: none;
+        }
+
+        .tab {
+            overflow: hidden;
+            background-color: #f1f1f1;
+            border-radius: 15px;
+        }
+
+        .tab button {
+            border: 1px solid #ccc;
+            background-color: inherit;
+            float: left;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            transition: 0.3s;
+            font-size: 17px;
+            width: 50%;
+            border-radius: 15px;
+        }
+
+        .tab button:hover {
+            background-color: #111c24;
+            color: #ffffff;
+        }
+
+        .tab button.active {
+            background-color: #0094B3;
+            color: #ffffff;
+        }
     </style>
 </head>
-<body>
+
+<body onload="initializeTabs()">
     <div class="header">
         <h1>📖 Sermon Library</h1>
         <p>Browse sermons by biblical book or theological topic</p>
     </div>
-    
+
     <div class="container">
+    <div class="tab">
+        <button class="tablinks" onclick="openCity(event, 'byBook')">Books</button>
+        <button class="tablinks" onclick="openCity(event, 'byTopic')">Topics</button>
+    </div>
+
         <!-- Book Filter Section -->
-        <div class="filter-section">
-            <h3>📖 Select a Book</h3>
+        <div id="byBook" class="filter-section tab-content">
+            <div class="tree-header">
+                <h2>Filter by Book</h2>
+            </div>
+            <h3>Select a Book</h3>
             <select class="book-dropdown" id="bookFilter">
                 <option value="">Choose a book...</option>
                 <!-- Options will be populated by JavaScript -->
             </select>
-            
+
             <!-- Filtered Results Container -->
             <div class="filtered-results" id="filteredResults">
                 <div class="tree" id="filtered-tree">
@@ -276,9 +322,9 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- By Topic Tree -->
-        <div class="tree-container">
+        <div id="byTopic" class="tree-container tab-content">
             <div class="tree-header">
                 <h2>🏷️ By Topic</h2>
             </div>
@@ -321,7 +367,7 @@
                     ],
                 },
                 "Matthew": {
-                    "Chapter 1" : [
+                    "Chapter 1": [
                         { title: "The Beatitudes", date: "2024-03-03", id: "matt-1", youtube: "fe_v8NEPzNs" },
                         { title: "The Lord's Prayer", date: "2024-03-10", id: "matt-2", youtube: "fe_v8NEPzNs" }
                     ],
@@ -339,7 +385,12 @@
                 },
                 "1 Peter": {
                     "Chapter 1": [
-                        { title: "Expect Something Greater | 1 Peter 1:1-12 | Josh Teis", date: "2025-08-11", id: "1pet-1", youtube: "fe_v8NEPzNs" }
+                        { title: "Expect Something Greater | Week 1 | 1 Peter 1:1-12 | Josh Teis", date: "2025-08-10", id: "1pet-1-1", youtube: "fe_v8NEPzNs" },
+                        { title: "How Do Disciples Live Differently? | Week 2 | 1 Peter 1:13-25 | Josh Teis ", date: "2025-08-17", id: "1pet-1-2", youtube: "PVWT3lRUU6c" }
+                    ],
+                    "Chapter 2": [
+                        { title: "What Is Your Spiritual Diet? | Week 3 | 1 Peter 2:1-12 | Josh Teis", date: "2025-08-24", id: "1pet-2-1", youtube: "fS0fCCVw_9M" },
+                        { title: "Why Does God Have Me Here? | Week 4 | 1 Peter 2:11-25 | Josh Teis", date: "2025-08-31", id: "1pet-2-2", youtube: "sjVzkmOX1xo" }
                     ]
                 },
             },
@@ -371,11 +422,11 @@
         };
 
         let idCounter = 0;
-        
+
         function generateUniqueId() {
             return `node-${++idCounter}`;
         }
-        
+
         function createSermonItem(sermon) {
             const videoNodeId = generateUniqueId();
             return `
@@ -395,10 +446,10 @@
                 </li>
             `;
         }
-        
+
         function createTreeNode(title, children, isSermonList = false) {
             const nodeId = generateUniqueId();
-            
+
             if (isSermonList) {
                 const sermonItems = children.map(createSermonItem).join('');
                 const count = children.length;
@@ -421,7 +472,7 @@
                         return createTreeNode(childTitle, childData, false);
                     }
                 }).join('');
-                
+
                 return `
                     <li class="tree-node">
                         <div class="tree-toggle" data-target="${nodeId}">
@@ -435,19 +486,19 @@
                 `;
             }
         }
-        
+
         function generateBookTree() {
             const bookTreeHtml = Object.entries(sermonData.byBook).map(([bookName, sermons]) => {
                 return createTreeNode(bookName, sermons, true);
             }).join('');
-            
+
             return `<ul>${bookTreeHtml}</ul>`;
         }
-        
+
         function generateBookDropdown() {
             const dropdown = document.getElementById('bookFilter');
             const books = Object.keys(sermonData.byBook);
-            
+
             books.forEach(book => {
                 const option = document.createElement('option');
                 option.value = book;
@@ -455,39 +506,39 @@
                 dropdown.appendChild(option);
             });
         }
-        
+
         function generateFilteredBookTree(selectedBook) {
             if (!selectedBook || !sermonData.byBook[selectedBook]) {
                 return '';
             }
-            
+
             const chapters = sermonData.byBook[selectedBook];
             const chapterTreeHtml = Object.entries(chapters).map(([chapterName, sermons]) => {
                 return createTreeNode(chapterName, sermons, true);
             }).join('');
-            
+
             return `<ul>${chapterTreeHtml}</ul>`;
         }
-        
+
         function generateTopicTree() {
             const topicTreeHtml = Object.entries(sermonData.byTopic).map(([topic, sermons]) => {
                 return createTreeNode(topic, sermons, true);
             }).join('');
-            
+
             return `<ul>${topicTreeHtml}</ul>`;
         }
-        
+
         function initializeTrees() {
             // Generate topic tree and populate book dropdown
             document.getElementById('topic-tree').innerHTML = generateTopicTree();
             generateBookDropdown();
-            
+
             // Add dropdown change listener
-            document.getElementById('bookFilter').addEventListener('change', function(e) {
+            document.getElementById('bookFilter').addEventListener('change', function (e) {
                 const selectedBook = e.target.value;
                 const filteredResults = document.getElementById('filteredResults');
                 const filteredTree = document.getElementById('filtered-tree');
-                
+
                 if (selectedBook) {
                     const filteredTreeHtml = generateFilteredBookTree(selectedBook);
                     filteredTree.innerHTML = filteredTreeHtml;
@@ -497,21 +548,21 @@
                     filteredTree.innerHTML = '';
                 }
             });
-            
+
             // Add event listeners for toggles
-            document.addEventListener('click', function(e) {
+            document.addEventListener('click', function (e) {
                 if (e.target.closest('.tree-toggle')) {
                     const toggle = e.target.closest('.tree-toggle');
                     const targetId = toggle.getAttribute('data-target');
                     const targetElement = document.getElementById(targetId);
                     const icon = toggle.querySelector('.toggle-icon');
-                    
+
                     if (targetElement.classList.contains('collapsed')) {
                         targetElement.classList.remove('collapsed');
                         targetElement.classList.add('expanded');
                         icon.classList.add('expanded');
                         toggle.classList.add('active');
-                        
+
                         // Load YouTube iframe if this is a video section
                         const youtubeId = targetElement.getAttribute('data-youtube-id');
                         if (youtubeId) {
@@ -522,14 +573,14 @@
                         targetElement.classList.add('collapsed');
                         icon.classList.remove('expanded');
                         toggle.classList.remove('active');
-                        
+
                         // Collapse all children
                         const childToggles = targetElement.querySelectorAll('.tree-toggle');
                         childToggles.forEach(childToggle => {
                             const childTargetId = childToggle.getAttribute('data-target');
                             const childTargetElement = document.getElementById(childTargetId);
                             const childIcon = childToggle.querySelector('.toggle-icon');
-                            
+
                             childTargetElement.classList.remove('expanded');
                             childTargetElement.classList.add('collapsed');
                             childIcon.classList.remove('expanded');
@@ -537,7 +588,7 @@
                         });
                     }
                 }
-                
+
                 // Handle video placeholder clicks
                 if (e.target.closest('.video-placeholder')) {
                     const placeholder = e.target.closest('.video-placeholder');
@@ -549,14 +600,14 @@
                 }
             });
         }
-        
+
         function loadYouTubeVideo(container, youtubeId) {
             const videoContainer = container.querySelector('.video-container');
             const placeholder = videoContainer.querySelector('.video-placeholder');
-            
+
             if (placeholder) {
                 const videoTitle = container.getAttribute('data-video-title') || 'Sermon Video';
-                
+
                 // Create iframe using DOM methods instead of innerHTML
                 const iframe = document.createElement('iframe');
                 iframe.width = '560';
@@ -566,15 +617,37 @@
                 iframe.frameBorder = '0';
                 iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
                 iframe.allowFullscreen = true;
-                
+
                 // Clear container and add iframe
                 videoContainer.innerHTML = '';
                 videoContainer.appendChild(iframe);
             }
         }
-        
+
         // Initialize when page loads
         document.addEventListener('DOMContentLoaded', initializeTrees);
+
+        function initializeTabs() {
+            // Show the default tab content
+            document.getElementById('byBook').style.display = 'block';
+            // Add active class to the first tab button
+            document.getElementsByClassName('tablinks')[0].className += ' active';
+        }
+
+        function openCity(evt, filterType) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(filterType).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
     </script>
 </body>
+
 </html>
