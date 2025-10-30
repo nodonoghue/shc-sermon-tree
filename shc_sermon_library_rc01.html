@@ -124,33 +124,34 @@
         function generateBookData() {
             const bookData = {};
 
-            // Group sermons by book and chapter using exact book/chapters pairs
-            sermonData
-                .filter(sermon => sermon.bookChapters && Array.isArray(sermon.bookChapters))
-                .forEach(sermon => {
-                    // For each book/chapters pair in the sermon
-                    sermon.bookChapters.forEach(bookChapter => {
-                        const { book, chapters } = bookChapter;
+            for (const sermon of sermonData) {
+                if (!sermon.bookChapters || !Array.isArray(sermon.bookChapters)) {
+                    continue;
+                }
 
-                        if (!bookData[book]) {
-                            bookData[book] = {};
-                        }
-
-                        // For each chapter in this book's chapters array
-                        chapters.forEach(chapter => {
-                            if (!bookData[book][chapter]) {
-                                bookData[book][chapter] = [];
-                            }
-
-                            // Only add the sermon once per book/chapter combination
-                            if (!bookData[book][chapter].find(s => s.id === sermon.id)) {
-                                bookData[book][chapter].push(sermon);
-                            }
-                        });
-                    });
-                });
-
+                addSermonToBookData(sermon, bookData);
+            }
             return bookData;
+        }
+
+        function addSermonToBookData(sermon, bookData) {
+            for (const bookChapter of sermon.bookChapters) {
+                const { book, chapters } = bookChapter;
+
+                if (!bookData[book]) {
+                    bookData[book] = {};
+                }
+
+                for (const chapter of chapters) {
+                    if (!bookData[book][chapter]) {
+                        bookData[book][chapter] = [];
+                    }
+
+                    if (!bookData[book][chapter].some(s => s.id === sermon.id)) {
+                        bookData[book][chapter].push(sermon);
+                    }
+                }
+            }
         }
 
         function generateBookDropdown() {
@@ -161,12 +162,12 @@
             // Sort books according to biblical order
             const sortedBooks = bookOrder.filter(book => availableBooks.includes(book));
 
-            sortedBooks.forEach(book => {
+            for (const book of sortedBooks) {
                 const option = document.createElement('option');
                 option.value = book;
                 option.textContent = book;
                 dropdown.appendChild(option);
-            });
+            }
         }
 
         function generateFilteredBookTree(selectedBook) {
@@ -189,16 +190,16 @@
             const topicData = {};
 
             // Iterate through all sermons to collect them by topic
-            sermonData.forEach(sermon => {
+            for (const sermon of sermonData) {
                 if (sermon.topics && Array.isArray(sermon.topics)) {
-                    sermon.topics.forEach(topic => {
+                    for (const topic of sermon.topics) {
                         if (!topicData[topic]) {
                             topicData[topic] = [];
                         }
                         topicData[topic].push(sermon);
-                    });
+                    }
                 }
-            });
+            }
 
             return topicData;
         }
@@ -264,7 +265,7 @@
 
                         // Collapse all children
                         const childToggles = targetElement.querySelectorAll('.tree-toggle');
-                        childToggles.forEach(childToggle => {
+                        for (const childToggle of childToggles) {
                             const childTargetId = childToggle.getAttribute('data-target');
                             const childTargetElement = document.getElementById(childTargetId);
                             const childIcon = childToggle.querySelector('.toggle-icon');
@@ -276,7 +277,7 @@
 
                             // Stop and remove videos in collapsed children too
                             stopAndRemoveVideo(childTargetElement);
-                        });
+                        }
                     }
                 }
 
