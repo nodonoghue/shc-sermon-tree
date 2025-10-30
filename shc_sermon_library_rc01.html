@@ -239,7 +239,7 @@
             document.addEventListener('click', function (e) {
                 if (e.target.closest('.tree-toggle')) {
                     const toggle = e.target.closest('.tree-toggle');
-                    const targetId = toggle.getAttribute('data-target');
+                    const targetId = toggle.dataset.target;
                     const targetElement = document.getElementById(targetId);
                     const icon = toggle.querySelector('.toggle-icon');
 
@@ -250,7 +250,7 @@
                         toggle.classList.add('active');
 
                         // Load YouTube iframe if this is a video section
-                        const youtubeId = targetElement.getAttribute('data-youtube-id');
+                        const youtubeId = targetElement.dataset.youtubeId;
                         if (youtubeId) {
                             loadYouTubeVideo(targetElement, youtubeId);
                         }
@@ -266,7 +266,7 @@
                         // Collapse all children
                         const childToggles = targetElement.querySelectorAll('.tree-toggle');
                         for (const childToggle of childToggles) {
-                            const childTargetId = childToggle.getAttribute('data-target');
+                            const childTargetId = childToggle.dataset.target;
                             const childTargetElement = document.getElementById(childTargetId);
                             const childIcon = childToggle.querySelector('.toggle-icon');
 
@@ -285,7 +285,7 @@
                 if (e.target.closest('.video-placeholder')) {
                     const placeholder = e.target.closest('.video-placeholder');
                     const container = placeholder.closest('.tree-children');
-                    const youtubeId = container.getAttribute('data-youtube-id');
+                    const youtubeId = container.dataset.youtubeId;
                     if (youtubeId) {
                         loadYouTubeVideo(container, youtubeId);
                     }
@@ -298,8 +298,8 @@
             const placeholder = videoContainer.querySelector('.video-placeholder');
 
             if (placeholder) {
-                const videoTitle = container.getAttribute('data-video-title') || 'Sermon Video';
-                const startTime = container.getAttribute('data-start-time') || '0';
+                const videoTitle = container.dataset.videoTitle || 'Sermon Video';
+                const startTime = container.dataset.startTime || '0';
 
                 // Create iframe using DOM methods instead of innerHTML
                 const iframe = document.createElement('iframe');
@@ -324,8 +324,7 @@
             if (videoContainer) {
                 const iframe = videoContainer.querySelector('iframe');
                 if (iframe) {
-                    // Stop the video by removing and replacing the iframe
-                    // This is the most reliable way to stop YouTube embeds
+                    // Stop the video by removing and replacing the iframe to prevent multiple playbacks simultaneously
                     videoContainer.innerHTML = '<div class="video-placeholder">Click to load video...</div>';
                 }
             }
