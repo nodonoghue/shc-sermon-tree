@@ -281,6 +281,14 @@ const sermonData = [
     topics: ["Wisdom"],
   },
   {
+    title: "Secondhand Wisdom: How To Be A Priest | Malachi: 2:1-9 | Josh Teis",
+    date: "2025-11-03",
+    id: "secondhand-wisdom-part-3",
+    youtube: "0RhsTypgAhI",
+    bookChapters: [{ book: "Malachi", chapters: ["Chapter 2"] }],
+    topics: ["Wisdom"],
+  },
+  {
     title: "Unstoppable: Courage | 1 Peter 3:13-22 | Josh Teis",
     date: "2025-09-22",
     id: "unstoppable-courage-1",
