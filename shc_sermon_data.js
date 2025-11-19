@@ -314,7 +314,7 @@ const sermonData = [
   },
     {
     title: "Secondhand Wisdom: A Study in Malachi | Malachi 1:1-5 | Josh Teis",
-    date: "2025-10-27",
+    date: "2025-10-21",
     id: "secondhand-wisdom-part-1",
     youtube: "XWv3qUXEzOI",
     bookChapters: [{ book: "Malachi", chapters: ["Chapter 1"] }],
@@ -343,5 +343,13 @@ const sermonData = [
     youtube: "PJ-RuYa6MCM",
     bookChapters: [{ book: "Matthew", chapters: ["Chapter 28"] }],
     topics: ["Discipleship"],
+  },
+  {
+    title: "Secondhand Wisdom: New Look at the Old Testament God | Malachi 2:10-3:4 | Josh Teis",
+    date: "2025-11-17",
+    id: "secondhand-wisdom-part-4",
+    youtube: "PNHDvbDvnEU",
+    bookChapters: [{ book: "Malachi", chapters: ["Chapter 2", "Chapter 3"] }],
+    topics: ["Wisdom"],
   },
 ];
