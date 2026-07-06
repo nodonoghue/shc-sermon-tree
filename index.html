@@ -307,15 +307,6 @@
                         // Pause any currently playing video
                         if (currentPlayingPlayer && currentPlayingPlayer !== players[iframeDivId]) {
                             currentPlayingPlayer.pauseVideo();
-                            // Find the placeholder for the paused video and show it
-                            // const pausedContainerId = currentPlayingPlayer.getIframe().id.replace('youtube-', '');
-                            // const pausedContainer = document.getElementById(pausedContainerId);
-                            // if (pausedContainer) {
-                            //     const pausedPlaceholder = pausedContainer.querySelector('.video-placeholder');
-                            //     if (pausedPlaceholder) {
-                            //         pausedPlaceholder.style.display = 'flex'; // Show placeholder
-                            //     }
-                            // }
                         }
 
                         players[iframeDivId].playVideo(); // Play the clicked video
@@ -349,10 +340,7 @@
                         'enablejsapi': 1
                     },
                     events: {
-                        'onReady': function(event) {
-                            // Always show placeholder initially since autoplay is off
-                            //placeholder.style.display = 'flex';
-                        },
+                        'onReady': function(event) { },
                         'onStateChange': function(event) {
                             if (event.data === YT.PlayerState.PLAYING) {
                                 placeholder.style.display = 'none'; // Hide placeholder when playing
