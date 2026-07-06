@@ -165,11 +165,8 @@ body {
 
 /* Left bullet/indicator for sermon rows */
 .tree > ul > li > ul > li > .tree-toggle::before {
-    content: "•";
-    color: #00e5ff;
-    font-weight: bold;
+    content: " ";
     margin-right: 6px;
-    font-size: 1.1em;
 }
 
 .tree-toggle {
