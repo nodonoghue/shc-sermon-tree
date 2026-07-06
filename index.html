@@ -79,7 +79,6 @@
                         data-video-title="${sermon.title}">
                         <li class="video-container">
                             <div class="video-responsive">
-                                <div class="video-placeholder">Click to Play</div>
                                 <div id="youtube-${videoNodeId}"></div> <!-- Placeholder for YouTube Player -->
                             </div>
                         </li>
@@ -254,30 +253,15 @@
                         const isTargetElementVideoNode = targetElement.hasAttribute('data-youtube-id');
 
                         document.querySelectorAll('.tree-children.expanded').forEach(expandedChild => {
-                            if (expandedChild.id === targetId) {
-                                return; // Don't collapse the element being expanded
-                            }
+                            if (expandedChild.id === targetId) return;
 
                             const isExpandedChildVideoNode = expandedChild.hasAttribute('data-youtube-id');
 
                             if (isTargetElementVideoNode) {
-                                // If we are opening a video node, only collapse other video nodes
                                 if (isExpandedChildVideoNode) {
-                                    expandedChild.classList.remove('expanded');
-                                    expandedChild.classList.add('collapsed');
-                                    const childToggle = expandedChild.previousElementSibling;
-                                    if (childToggle) {
-                                        childToggle.classList.remove('active');
-                                        const childIcon = childToggle.querySelector('.toggle-icon');
-                                        if (childIcon) {
-                                            childIcon.classList.remove('expanded');
-                                        }
-                                    }
-                                    stopAndRemoveVideo(expandedChild);
+                                    collapseNodeAndDescendants(expandedChild);
                                 }
                             } else {
-                                // If we are opening a parent node (topic/chapter), use the ancestor logic
-                                // to collapse other branches
                                 let isAncestorOrSelf = false;
                                 let current = targetElement;
                                 while (current) {
@@ -285,22 +269,11 @@
                                         isAncestorOrSelf = true;
                                         break;
                                     }
-                                    // Move up to the next tree-children parent, handling cases where parentElement might not be a tree-children
                                     current = current.parentElement ? current.parentElement.closest('.tree-children') : null;
                                 }
 
                                 if (!isAncestorOrSelf) {
-                                    expandedChild.classList.remove('expanded');
-                                    expandedChild.classList.add('collapsed');
-                                    const childToggle = expandedChild.previousElementSibling;
-                                    if (childToggle) {
-                                        childToggle.classList.remove('active');
-                                        const childIcon = childToggle.querySelector('.toggle-icon');
-                                        if (childIcon) {
-                                            childIcon.classList.remove('expanded');
-                                        }
-                                    }
-                                    stopAndRemoveVideo(expandedChild); // This will stop video if expandedChild is a video node
+                                    collapseNodeAndDescendants(expandedChild);
                                 }
                             }
                         });
@@ -310,35 +283,17 @@
                         icon.classList.add('expanded');
                         toggle.classList.add('active');
 
-                        // Load YouTube iframe if this is a video section
                         const youtubeId = targetElement.dataset.youtubeId;
                         if (youtubeId) {
                             loadYouTubeVideo(targetElement, youtubeId);
                         }
+
+                        // Smoothly scroll the expanded element into view
+                        setTimeout(() => {
+                            toggle.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                        }, 250);
                     } else {
-                        targetElement.classList.remove('expanded');
-                        targetElement.classList.add('collapsed');
-                        icon.classList.remove('expanded');
-                        toggle.classList.remove('active');
-
-                        // Stop and remove video when collapsing
-                        stopAndRemoveVideo(targetElement);
-
-                        // Collapse all children
-                        const childToggles = targetElement.querySelectorAll('.tree-toggle');
-                        for (const childToggle of childToggles) {
-                            const childTargetId = childToggle.dataset.target;
-                            const childTargetElement = document.getElementById(childTargetId);
-                            const childIcon = childToggle.querySelector('.toggle-icon');
-
-                            childTargetElement.classList.remove('expanded');
-                            childTargetElement.classList.add('collapsed');
-                            childIcon.classList.remove('expanded');
-                            childToggle.classList.remove('active');
-
-                            // Stop and remove videos in collapsed children too
-                            stopAndRemoveVideo(childTargetElement);
-                        }
+                        collapseNodeAndDescendants(targetElement);
                     }
                 }
 
@@ -449,6 +404,30 @@
                 if (currentPlayingPlayer === players[iframeDivId]) {
                     currentPlayingPlayer = null; // Clear current playing player
                 }
+            }
+        }
+
+        function collapseNodeAndDescendants(element) {
+            if (!element) return;
+
+            element.classList.remove('expanded');
+            element.classList.add('collapsed');
+
+            const toggle = element.previousElementSibling;
+            if (toggle && toggle.classList.contains('tree-toggle')) {
+                toggle.classList.remove('active');
+                const icon = toggle.querySelector('.toggle-icon');
+                if (icon) {
+                    icon.classList.remove('expanded');
+                }
+            }
+
+            stopAndRemoveVideo(element);
+
+            // Recursively collapse direct child containers
+            const childContainers = element.querySelectorAll(':scope > li > .tree-children');
+            for (const childContainer of childContainers) {
+                collapseNodeAndDescendants(childContainer);
             }
         }
 

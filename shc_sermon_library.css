@@ -1,18 +1,28 @@
 @media (max-width: 768px) {
     body {
-        padding: 10px; /* Reduce overall padding on smaller screens */
+        padding: 8px; /* Reduce overall padding on smaller screens */
     }
 
     .container {
-        gap: 20px;
+        gap: 15px;
+    }
+
+    .header {
+        margin-bottom: 20px;
+        padding: 15px;
     }
 
     .header h1 {
-        font-size: 1.8em; /* Adjust header font size */
+        font-size: 1.6em; /* Adjust header font size */
     }
 
     .header p {
-        font-size: 0.9em; /* Adjust header paragraph font size */
+        font-size: 0.85em; /* Adjust header paragraph font size */
+    }
+
+    .tree-container, .filter-section {
+        padding: 12px;
+        border-radius: 6px;
     }
 
     .book-dropdown {
@@ -20,30 +30,26 @@
         font-size: 14px; /* Adjust dropdown font size */
     }
 
+    .tree-header {
+        padding-bottom: 10px;
+        margin-bottom: 15px;
+    }
+
     .tree-header h2 {
         font-size: 1.2em; /* Adjust tree header font size */
     }
 
-    .tree ul ul {
-        margin-left: 15px; /* Reduce indentation for nested lists */
-        padding-left: 5px;
-    }
-
-    .tree-toggle {
-        padding: 6px 10px; /* Adjust toggle padding */
-    }
-
     .sermon-title {
-        font-size: 0.95em; /* Adjust sermon title font size */
+        font-size: 0.9em; /* Adjust sermon title font size */
     }
 
     .sermon-date {
-        font-size: 0.8em; /* Adjust sermon date font size */
+        font-size: 0.75em; /* Adjust sermon date font size */
     }
 
     .video-placeholder {
-        padding: 40px 10px; /* Adjust video placeholder padding */
-        font-size: 0.9em;
+        padding: 30px 10px; /* Adjust video placeholder padding */
+        font-size: 0.85em;
     }
 
     .tab button {
@@ -66,7 +72,7 @@ body {
     margin-bottom: 30px;
     padding: 20px;
     background: #ffffff;
-    border-radius: 8px;
+    border-radius: 4px;
 }
 
 .header h1 {
@@ -80,7 +86,7 @@ body {
 }
 
 .container {
-    max-width: 800px;
+    max-width: 1000px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
@@ -89,7 +95,7 @@ body {
 
 .tree-container {
     background: #0094B3;
-    border-radius: 8px;
+    border-radius: 4px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     padding: 20px;
 }
@@ -122,20 +128,55 @@ body {
 }
 
 .tree ul ul {
-    margin-left: 25px;
-    padding-left: 10px;
-    border-left: 1px dashed #dee2e6;
+    margin-left: 0;
+    padding-left: 0;
+    border-left: none; /* Flatten the tree navigation */
 }
 
 .tree-node {
     position: relative;
 }
 
+/* Style Level 1 Category Nodes (Topics / Chapters) */
+.tree > ul > li {
+    margin-bottom: 8px;
+}
+
+.tree > ul > li > .tree-toggle {
+    background-color: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    font-weight: 700;
+    border-radius: 4px;
+}
+
+/* Style Level 2 Nodes (Sermons) */
+.tree > ul > li > ul > li > .tree-toggle {
+    background-color: rgba(17, 28, 36, 0.35);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    margin: 2px 0;
+    padding-left: 12px;
+    border-radius: 4px;
+}
+
+/* Alternating sermon backgrounds for clear contrast */
+.tree > ul > li > ul > li:nth-child(even) > .tree-toggle {
+    background-color: rgba(17, 28, 36, 0.5);
+}
+
+/* Left bullet/indicator for sermon rows */
+.tree > ul > li > ul > li > .tree-toggle::before {
+    content: "•";
+    color: #00e5ff;
+    font-weight: bold;
+    margin-right: 6px;
+    font-size: 1.1em;
+}
+
 .tree-toggle {
     cursor: pointer;
     display: flex;
     align-items: center;
-    padding: 8px 12px;
+    padding: 8px 10px; /* Reduced horizontal padding */
     border-radius: 4px;
     transition: background-color 0.2s;
     user-select: none;
@@ -216,10 +257,10 @@ body {
 }
 
 .video-container {
-    padding: 10px;
-    background: #0094B3;
-    border-radius: 6px;
-    margin: 5px 0;
+    padding: 4px;
+    margin: 4px 0 10px 0;
+    border-radius: 4px;
+    background: #0d161c; /* Darker frame for the video player */
 }
 
 /* Responsive video styles */
@@ -240,7 +281,7 @@ body {
     width: 100%;
     height: 100%;
     border: 0;
-    border-radius: 6px;
+    border-radius: 4px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -257,7 +298,7 @@ body {
     background: rgba(0, 148, 179, 0.9); /* Semi-transparent background */
     color: #ffffff;
     border: 2px dashed #ffffff;
-    border-radius: 6px;
+    border-radius: 4px;
     cursor: pointer;
     transition: all 0.3s ease;
     font-size: 1.2em; /* Make text more prominent */
@@ -276,7 +317,7 @@ body {
 
 .filter-section {
     background: #0094B3;
-    border-radius: 8px;
+    border-radius: 4px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     padding: 20px;
     margin-bottom: 30px;
@@ -292,7 +333,7 @@ body {
     max-width: 300px;
     padding: 10px 15px;
     border: 2px solid #dee2e6;
-    border-radius: 6px;
+    border-radius: 4px;
     font-size: 16px;
     background: #111c24;
     color: #ffffff;
@@ -322,7 +363,7 @@ body {
 .tab {
     overflow: hidden;
     background-color: #f1f1f1;
-    border-radius: 15px;
+    border-radius: 4px;
 }
 
 .tab button {
@@ -335,7 +376,7 @@ body {
     transition: 0.3s;
     font-size: 17px;
     width: 50%;
-    border-radius: 15px;
+    border-radius: 4px;
 }
 
 .tab button:hover {
