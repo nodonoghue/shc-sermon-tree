@@ -308,14 +308,14 @@
                         if (currentPlayingPlayer && currentPlayingPlayer !== players[iframeDivId]) {
                             currentPlayingPlayer.pauseVideo();
                             // Find the placeholder for the paused video and show it
-                            const pausedContainerId = currentPlayingPlayer.getIframe().id.replace('youtube-', '');
-                            const pausedContainer = document.getElementById(pausedContainerId);
-                            if (pausedContainer) {
-                                const pausedPlaceholder = pausedContainer.querySelector('.video-placeholder');
-                                if (pausedPlaceholder) {
-                                    pausedPlaceholder.style.display = 'flex'; // Show placeholder
-                                }
-                            }
+                            // const pausedContainerId = currentPlayingPlayer.getIframe().id.replace('youtube-', '');
+                            // const pausedContainer = document.getElementById(pausedContainerId);
+                            // if (pausedContainer) {
+                            //     const pausedPlaceholder = pausedContainer.querySelector('.video-placeholder');
+                            //     if (pausedPlaceholder) {
+                            //         pausedPlaceholder.style.display = 'flex'; // Show placeholder
+                            //     }
+                            // }
                         }
 
                         players[iframeDivId].playVideo(); // Play the clicked video
