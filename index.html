@@ -7,6 +7,7 @@
     <title>Sermon Catalog</title>
     <link rel="stylesheet" href="shc_sermon_library.css">
     <script src="shc_sermon_data.js"></script>
+    <script src="https://www.youtube.com/iframe_api"></script> <!-- YouTube IFrame Player API -->
 </head>
 
 <body onload="initializeTabs()">
@@ -54,6 +55,8 @@
 
     <script>
         let idCounter = 0;
+        let players = {}; // Store YouTube Player objects
+        let currentPlayingPlayer = null; // Track the currently playing player
 
         function generateUniqueId() {
             return `node-${++idCounter}`;
@@ -75,7 +78,10 @@
                         data-start-time="${sermon.startTime || 0}"
                         data-video-title="${sermon.title}">
                         <li class="video-container">
-                            <div class="video-placeholder">Click to load video...</div>
+                            <div class="video-responsive">
+                                <div class="video-placeholder">Click to Play</div>
+                                <div id="youtube-${videoNodeId}"></div> <!-- Placeholder for YouTube Player -->
+                            </div>
                         </li>
                     </ul>
                 </li>
@@ -245,6 +251,60 @@
                     const icon = toggle.querySelector('.toggle-icon');
 
                     if (targetElement.classList.contains('collapsed')) {
+                        const isTargetElementVideoNode = targetElement.hasAttribute('data-youtube-id');
+
+                        document.querySelectorAll('.tree-children.expanded').forEach(expandedChild => {
+                            if (expandedChild.id === targetId) {
+                                return; // Don't collapse the element being expanded
+                            }
+
+                            const isExpandedChildVideoNode = expandedChild.hasAttribute('data-youtube-id');
+
+                            if (isTargetElementVideoNode) {
+                                // If we are opening a video node, only collapse other video nodes
+                                if (isExpandedChildVideoNode) {
+                                    expandedChild.classList.remove('expanded');
+                                    expandedChild.classList.add('collapsed');
+                                    const childToggle = expandedChild.previousElementSibling;
+                                    if (childToggle) {
+                                        childToggle.classList.remove('active');
+                                        const childIcon = childToggle.querySelector('.toggle-icon');
+                                        if (childIcon) {
+                                            childIcon.classList.remove('expanded');
+                                        }
+                                    }
+                                    stopAndRemoveVideo(expandedChild);
+                                }
+                            } else {
+                                // If we are opening a parent node (topic/chapter), use the ancestor logic
+                                // to collapse other branches
+                                let isAncestorOrSelf = false;
+                                let current = targetElement;
+                                while (current) {
+                                    if (current === expandedChild) {
+                                        isAncestorOrSelf = true;
+                                        break;
+                                    }
+                                    // Move up to the next tree-children parent, handling cases where parentElement might not be a tree-children
+                                    current = current.parentElement ? current.parentElement.closest('.tree-children') : null;
+                                }
+
+                                if (!isAncestorOrSelf) {
+                                    expandedChild.classList.remove('expanded');
+                                    expandedChild.classList.add('collapsed');
+                                    const childToggle = expandedChild.previousElementSibling;
+                                    if (childToggle) {
+                                        childToggle.classList.remove('active');
+                                        const childIcon = childToggle.querySelector('.toggle-icon');
+                                        if (childIcon) {
+                                            childIcon.classList.remove('expanded');
+                                        }
+                                    }
+                                    stopAndRemoveVideo(expandedChild); // This will stop video if expandedChild is a video node
+                                }
+                            }
+                        });
+
                         targetElement.classList.remove('collapsed');
                         targetElement.classList.add('expanded');
                         icon.classList.add('expanded');
@@ -286,47 +346,108 @@
                 if (e.target.closest('.video-placeholder')) {
                     const placeholder = e.target.closest('.video-placeholder');
                     const container = placeholder.closest('.tree-children');
-                    const youtubeId = container.dataset.youtubeId;
-                    if (youtubeId) {
-                        loadYouTubeVideo(container, youtubeId);
+                    const iframeDivId = `youtube-${container.id}`;
+
+                    if (players[iframeDivId]) {
+                        // Pause any currently playing video
+                        if (currentPlayingPlayer && currentPlayingPlayer !== players[iframeDivId]) {
+                            currentPlayingPlayer.pauseVideo();
+                            // Find the placeholder for the paused video and show it
+                            const pausedContainerId = currentPlayingPlayer.getIframe().id.replace('youtube-', '');
+                            const pausedContainer = document.getElementById(pausedContainerId);
+                            if (pausedContainer) {
+                                const pausedPlaceholder = pausedContainer.querySelector('.video-placeholder');
+                                if (pausedPlaceholder) {
+                                    pausedPlaceholder.style.display = 'flex'; // Show placeholder
+                                }
+                            }
+                        }
+
+                        players[iframeDivId].playVideo(); // Play the clicked video
+                        currentPlayingPlayer = players[iframeDivId]; // Set as current playing
+                        placeholder.style.display = 'none'; // Hide placeholder
                     }
                 }
             });
         }
 
-        function loadYouTubeVideo(container, youtubeId) {
-            const videoContainer = container.querySelector('.video-container');
-            const placeholder = videoContainer.querySelector('.video-placeholder');
+        // This function is called by the YouTube IFrame Player API when it's ready
+        function onYouTubeIframeAPIReady() {
+            console.log('YouTube IFrame API is ready.');
+        }
 
-            if (placeholder) {
-                const videoTitle = container.dataset.videoTitle || 'Sermon Video';
+        function loadYouTubeVideo(container, youtubeId) {
+            const responsiveWrapper = container.querySelector('.video-responsive');
+            const placeholder = responsiveWrapper.querySelector('.video-placeholder');
+            const iframeDivId = `youtube-${container.id}`;
+
+            if (!players[iframeDivId]) { // Only create player if not already created
                 const startTime = container.dataset.startTime || '0';
 
-                // Create iframe using DOM methods instead of innerHTML
-                const iframe = document.createElement('iframe');
-                iframe.width = '560';
-                iframe.height = '315';
-                // Add start time parameter and enable JS API for control
-                iframe.src = `https://www.youtube.com/embed/${youtubeId}?modestbranding=1&rel=0&start=${startTime}&enablejsapi=1`;
-                iframe.title = videoTitle;
-                iframe.frameBorder = '0';
-                iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
-                iframe.allowFullscreen = true;
-                iframe.id = `youtube-${container.id}`; // Give iframe an ID for control
-
-                // Clear container and add iframe
-                videoContainer.innerHTML = '';
-                videoContainer.appendChild(iframe);
+                players[iframeDivId] = new YT.Player(iframeDivId, {
+                    videoId: youtubeId,
+                    playerVars: {
+                        'autoplay': 0, // Do not autoplay
+                        'modestbranding': 1,
+                        'rel': 0,
+                        'start': startTime,
+                        'enablejsapi': 1
+                    },
+                    events: {
+                        'onReady': function(event) {
+                            // Always show placeholder initially since autoplay is off
+                            placeholder.style.display = 'flex';
+                        },
+                        'onStateChange': function(event) {
+                            if (event.data === YT.PlayerState.PLAYING) {
+                                placeholder.style.display = 'none'; // Hide placeholder when playing
+                                // Pause any other playing video
+                                if (currentPlayingPlayer && currentPlayingPlayer !== event.target) {
+                                    currentPlayingPlayer.pauseVideo();
+                                    const pausedContainerId = currentPlayingPlayer.getIframe().id.replace('youtube-', '');
+                                    const pausedContainer = document.getElementById(pausedContainerId);
+                                    if (pausedContainer) {
+                                        const pausedPlaceholder = pausedContainer.querySelector('.video-placeholder');
+                                        if (pausedPlaceholder) {
+                                            pausedPlaceholder.style.display = 'flex'; // Show placeholder
+                                        }
+                                    }
+                                }
+                                currentPlayingPlayer = event.target; // Set this as the current playing player
+                            } else if (event.data === YT.PlayerState.PAUSED) {
+                                // Do NOT show placeholder on pause
+                                // The user can resume playback using the YouTube controls
+                            } else if (event.data === YT.PlayerState.ENDED) {
+                                placeholder.style.display = 'flex'; // Show placeholder when video ends
+                                if (currentPlayingPlayer === event.target) {
+                                    currentPlayingPlayer = null; // Clear current playing player
+                                }
+                            }
+                        }
+                    }
+                });
+            } else {
+                // If player exists, ensure placeholder is visible if not playing
+                if (players[iframeDivId].getPlayerState() !== YT.PlayerState.PLAYING) {
+                    placeholder.style.display = 'flex';
+                } else {
+                    placeholder.style.display = 'none';
+                }
             }
         }
 
         function stopAndRemoveVideo(container) {
-            const videoContainer = container.querySelector('.video-container');
-            if (videoContainer) {
-                const iframe = videoContainer.querySelector('iframe');
-                if (iframe) {
-                    // Stop the video by removing and replacing the iframe to prevent multiple playbacks simultaneously
-                    videoContainer.innerHTML = '<div class="video-placeholder">Click to load video...</div>';
+            const iframeDivId = `youtube-${container.id}`;
+            if (players[iframeDivId]) {
+                players[iframeDivId].stopVideo();
+                // When collapsing, ensure the placeholder is visible
+                const responsiveWrapper = container.querySelector('.video-responsive');
+                const placeholder = responsiveWrapper.querySelector('.video-placeholder');
+                if (placeholder) {
+                    placeholder.style.display = 'flex';
+                }
+                if (currentPlayingPlayer === players[iframeDivId]) {
+                    currentPlayingPlayer = null; // Clear current playing player
                 }
             }
         }
