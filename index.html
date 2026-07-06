@@ -347,14 +347,6 @@
                                 // Pause any other playing video
                                 if (currentPlayingPlayer && currentPlayingPlayer !== event.target) {
                                     currentPlayingPlayer.pauseVideo();
-                                    const pausedContainerId = currentPlayingPlayer.getIframe().id.replace('youtube-', '');
-                                    const pausedContainer = document.getElementById(pausedContainerId);
-                                    if (pausedContainer) {
-                                        const pausedPlaceholder = pausedContainer.querySelector('.video-placeholder');
-                                        if (pausedPlaceholder) {
-                                            pausedPlaceholder.style.display = 'flex'; // Show placeholder
-                                        }
-                                    }
                                 }
                                 currentPlayingPlayer = event.target; // Set this as the current playing player
                             } else if (event.data === YT.PlayerState.PAUSED) {
